@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="./style.css" />
+        <script src="./program.js" defer></script>
+        <title>Программа проверки информационной безопасности</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div>
+                <h3>Межсетевой экран</h3>
+                <p class="field--disabled" data-action="loading">Loading...</p>
+                <div class="settings">
+                    <div class="settings__item">
+                        <button class="settings__button" data-action="internet">
+                            Проверка подключения к Интернету
+                        </button>
+                        <div class="settings__result" id="resultField"></div>
+                    </div>
+                    <div class="settings__item">
+                        <button class="settings__button" data-action="firewall">
+                            Проверка наличия установленного межсетевого экрана
+                        </button>
+                        <div class="settings__result" id="resultField"></div>
+                    </div>
+                    <div class="settings__item">
+                        <button class="settings__button" data-action="isFirewallWork">
+                            Проверка работоспособности межсетевого экрана
+                        </button>
+                        <div class="settings__result" id="resultField"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>Антивирусное ПО</h3>
+                <div class="settings">
+                    <div class="settings__item">
+                        <button class="settings__button" data-action="antivirus">
+                            Проверка наличия установленного антивируса
+                        </button>
+                        <div class="settings__result" id="resultField"></div>
+                    </div>
+                    <div class="settings__item">
+                        <button class="settings__button" data-action="isAntivirusWork">
+                            Проверка работоспособности антивирусного ПО
+                        </button>
+                        <div class="settings__result" id="resultField"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>Результаты проверки</h3>
+                <div class="results">
+                    <div class="results__buttons">
+                        <button class="results__button" data-action="result">Вывести результаты</button>
+                        <button class="results__button" data-action="saveInFile">Сохранить в файл</button>
+                        <p class="save--success save--disabled" data-action="save-success">
+                            Сохранение успешно завершено
+                        </p>
+                    </div>
+                    <div class="results__result" id="resultField"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
