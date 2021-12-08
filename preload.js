@@ -10,20 +10,20 @@ const path = require('path');
 //=== Конфиг для хранения сткроковой информации для функций ===
 
 const config = {
-    googleUrl: 'www.google.com',
-    yandexUrl: 'http://yandex.ru',
+    internetLink: 'www.google.com',
+    blockedLink: 'http://yandex.ru',
     kasperskyFWPath: 'C:\\Program Files (x86)\\Kaspersky Lab\\Kaspersky Security Cloud 21.3\\knepsx64\\kneps.sys',
-    kasperLabKey: 'HKLM\\SOFTWARE\\KasperskyLab',
-    kasperCertsKey: 'HKLM\\SOFTWARE\\Microsoft\\SystemCertificates\\SPC\\Certificates',
+    kasperLabRegKey: 'HKLM\\SOFTWARE\\KasperskyLab',
+    kasperCertsRegKey: 'HKLM\\SOFTWARE\\Microsoft\\SystemCertificates\\SPC\\Certificates',
 };
 
 //=== Функции для обработки запросов к ПК ===
 
 const internet = async () => {
     try {
-        return await ping.promise.probe(config.googleUrl);
+        return await ping.promise.probe(config.internetLink);
     } catch (error) {
-        console.error('В функции internet произошла ошибка', e);
+        console.error('При проверке подключения к интернету произошла ошибка', e);
         return false;
     }
 };
@@ -49,7 +49,7 @@ const isFirewallWork = async () => {
         });
     };
 
-    return await readUrl(config.yandexUrl)
+    return await readUrl(config.blockedLink)
         .then((data) => (data ? true : null))
         .catch(() => {
             return false;
@@ -58,17 +58,17 @@ const isFirewallWork = async () => {
 
 const antivirus = async () => {
     try {
-        const { kasperLabKey, kasperCertsKey } = config;
+        const { kasperLabRegKey, kasperCertsRegKey } = config;
 
-        const registryList = await regedit.promisified.list([kasperLabKey, kasperCertsKey]);
+        const registryList = await regedit.promisified.list([kasperLabRegKey, kasperCertsRegKey]);
 
         //Если существует папка LasperskyLab в SOFTWARE и сертификаты
-        const isKasperLabKeyExist = registryList[kasperLabKey].exists;
-        const isKasperCartsKeyExist = registryList[kasperCertsKey].exists;
+        const isKasperLabRegKeyExist = registryList[kasperLabRegKey].exists;
+        const isKasperCartsKeyExist = registryList[kasperCertsRegKey].exists;
 
-        return isKasperLabKeyExist & isKasperCartsKeyExist ? true : false;
+        return isKasperLabRegKeyExist & isKasperCartsKeyExist ? true : false;
     } catch (error) {
-        console.error('В функции antivirus произошла ошибка', error);
+        console.error('При проверке установленного на компьютере антивируса произошла ошибка', error);
         return false;
     }
 };
@@ -79,7 +79,7 @@ const isAntivirusWork = async () => {
             return list[0] ? true : false;
         })
         .catch((error) => {
-            console.error('В функции isAntivirusWork произошла ошибка', error);
+            console.error('При проверке работоспособности антивируса произошла ошибка', error);
         });
 };
 
@@ -93,7 +93,7 @@ const saveInFile = (text) => {
 
         fs.writeFileSync(pathToSave, text, 'utf-8');
     } catch (error) {
-        console.error('В функции saveInFile произошла ошибка', error);
+        console.error('При сохранении в файл произошла ошибка', error);
     }
 };
 
